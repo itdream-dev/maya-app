@@ -8,6 +8,7 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import Borrow from './Compound/borrow'
 import Supply from './Compound/supply'
+import Vote from './Compound/vote'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -39,7 +40,7 @@ const BodyWrapper = styled.div`
 
   z-index: 1;
 `
-
+ 
 const Marginer = styled.div`
   margin-top: 5rem;
 `
@@ -61,6 +62,7 @@ export default function App() {
                 <Route exact strict path="/" component={Supply} />  
                 <Route exact strict path="/supply" component={Supply} />
                 <Route exact strict path="/borrow" component={Borrow} />
+                <Route exact strict path="/vote" component={Vote} />
               </Switch>
             </Web3ReactManager>
             <Marginer />
