@@ -1,11 +1,83 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AppBody from '../AppBody'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { CustomTable } from '../../components/Custom/CustomTable'
+import styled from 'styled-components'
+import { ReactComponent as Close } from '../../assets/images/x.svg'
+import { CustomBorrowModal } from '../../components/Modal/CustomBorrowModal'
+import Modal from '../../components/Modal'
+import { Wrapper } from '../../components/swap/styleds'
+
+const CloseIcon = styled.div`
+  position: absolute;
+  right: 1rem;
+  top: 18px;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+`
+
+const CloseColor = styled(Close)`
+  path {
+    stroke: ${({ theme }) => theme.text4};
+  }
+`
+
+const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1rem;
+  font-weight: 500;
+  text-align: center;
+  img {
+    width: 30px;
+    height: 30px;
+    margin-right: 6px;
+  }
+`
+
+const ContentWrapper = styled.div`
+  background-color: ${({ theme }) => theme.bg2};
+  // padding: 2rem;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`padding: 1rem`};
+`
+
+const UpperSection = styled.div`
+  width: 420px;
+  h5 {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+`
 
 export default function Borrow() {
-  // show approve flow when: no error on inputs, not approved or pending, or approved in current session
-  // never show if price impact is above threshold in non expert mode
+  const [modalOpen, setModalOpen] = useState(false);
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  }
+
+  function getModalContent() {
+    return (
+      <UpperSection>
+        <CloseIcon onClick={toggleModal}>
+          <CloseColor />
+        </CloseIcon>
+        <HeaderRow>
+          <img src={'assets/asset_USDC.svg'} alt='eth img'></img>
+          {'USD Coin'}
+        </HeaderRow>
+        <ContentWrapper>
+            <CustomBorrowModal />
+        </ContentWrapper>
+      </UpperSection>
+    )
+  }
   return (
     <>
       <AppBody>
@@ -27,8 +99,11 @@ export default function Borrow() {
           unit={'USDC'}
           header_img={'asset_USDC.svg'}
           header_title={'USD Coin'}
-          onClickItem4={()=>alert('Cool')}
+          onClickItem={toggleModal}
         />
+        <Modal isOpen={modalOpen} onDismiss={toggleModal} minHeight={false}>
+          <Wrapper>{getModalContent()}</Wrapper>
+        </Modal>
       </AppBody>
     </>
   )

@@ -112,8 +112,8 @@ export const CustomTable = (props: any) => {
               {props.cols2.map((item: any, index: number) => <TH key={index} style={item.style}>{item.title}</TH>)}
             </TR>
             {props.data.map((item: any, index: number) =>
-              <TR2 key={index} onClick={() => item.collateral && props.onClickItem()}>
-                <TD style={{ textAlign: 'left', paddingLeft: 18 }}>
+              <TR2 key={index}>
+                <TD style={{ textAlign: 'left', paddingLeft: 18 }} onClick={() => props.onClickItem()}>
                   <div>
                     <img src={'assets/' + item.img} alt={'asset'} />
                     <span>{item.title}</span>
@@ -126,7 +126,7 @@ export const CustomTable = (props: any) => {
                   <p>{item.balance_dollar + ' ' + item.unit}</p>
                 </TD>
                 <TD>
-                  {props.unit === 'ETH' && <Switch onColor={'#00D395'} onChange={() => { }} checked={item.collateral} width={36} height={18} />}
+                  {props.unit === 'ETH' && <Switch onColor={'#00D395'} onChange={() => props.modalCollaterial(item.collateral)} checked={item.collateral} width={36} height={18} />}
                   {props.unit === 'USDC' && <p>${item.liquidity}</p>}
                 </TD>
               </TR2>

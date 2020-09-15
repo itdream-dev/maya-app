@@ -1,11 +1,11 @@
 import React, { } from 'react';
 import styled from 'styled-components';
 
-const CoinItem = styled.div<{ border: boolean }>`
+const CoinItem = styled.div<{ border: any }>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 2px solid ${({ border }) => (!border ? '#EFF2F4' : 'transparent')};
+  border-bottom: 2px solid ${({ border }) => (border === 'transparent' ? 'transparent' : border === 'red' ? 'red' : '#EFF2F4')};
   padding: 16px 0;
   div {
     display: flex;  

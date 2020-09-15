@@ -7,6 +7,8 @@ import { CustomTable } from '../../components/Custom/CustomTable'
 import Modal from '../../components/Modal'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { CustomSupplyModal } from '../../components/Modal/CustomSupplyModal'
+import { CustomCollateralRequiredModal } from '../../components/Modal/CustomCollateralRequiredModal'
+import { CustomCollateralEnabledModal } from '../../components/Modal/CustomCollateralEnabledModal'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -58,22 +60,31 @@ const UpperSection = styled.div`
 
 export default function Supply() {
   const [modalOpen, setModalOpen] = useState(false);
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
+  const [collaterialE, setCollaterialE] = useState(false);
+  const [collaterialR, setCollaterialR] = useState(false);
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setCollaterialE(false);
+    setCollaterialR(false);
+  }
+  const collaterialModal = (x: boolean) => {
+     if(x) {
+      setCollaterialR(true);
+     } else {
+      setCollaterialE(true);
+     }
   }
 
-  function getModalContent() {
+  function getModalContent(header: any, content: any) {
     return (
       <UpperSection>
-        <CloseIcon onClick={toggleModal}>
+        <CloseIcon onClick={closeModal}>
           <CloseColor />
         </CloseIcon>
-        <HeaderRow>
-          <img src={'assets/asset_ETH.svg'} alt='eth img'></img>
-          {'Ether'}
-        </HeaderRow>
+        {header}
         <ContentWrapper>
-            <CustomSupplyModal />
+          {content}
         </ContentWrapper>
       </UpperSection>
     )
@@ -83,7 +94,6 @@ export default function Supply() {
       <AppBody>
         <SwapPoolTabs active={'supply'} />
         <Wrapper id="supply-page"></Wrapper>
-        <p onClick={()=>setModalOpen(!modalOpen)}>Heya guys!</p>
         <CustomTable
           data={mokeData}
           cols1={[
@@ -101,10 +111,28 @@ export default function Supply() {
           unit={'ETH'}
           header_img={'ctoken_eth.svg'}
           header_title={'Ether'}
-          onClickItem={toggleModal}
+          onClickItem={()=>setModalOpen(true)}
+          modalCollaterial={(x: boolean) => collaterialModal(x)}
         />
-        <Modal isOpen={modalOpen} onDismiss={toggleModal} minHeight={false}>
-          <Wrapper>{getModalContent()}</Wrapper>
+        <Modal isOpen={modalOpen} onDismiss={()=>setModalOpen(false)} minHeight={false}>
+          <Wrapper>{getModalContent(
+            <HeaderRow>
+              <img src={'assets/asset_ETH.svg'} alt='eth img'></img>
+              {'Ether'}
+            </HeaderRow>, <CustomSupplyModal />)}
+          </Wrapper>
+        </Modal>
+
+        <Modal isOpen={collaterialE} onDismiss={()=>setCollaterialE(false)} minHeight={false}>
+          <Wrapper>
+            {getModalContent(null, <CustomCollateralEnabledModal/>)}
+          </Wrapper>
+        </Modal>
+
+        <Modal isOpen={collaterialR} onDismiss={()=>setCollaterialR(false)} minHeight={false}>
+          <Wrapper>
+            {getModalContent(null, <CustomCollateralRequiredModal/>)}
+          </Wrapper>
         </Modal>
       </AppBody>
     </>
