@@ -1,7 +1,6 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { CurrencyAmount, ETHER, SwapParameters, Token, Trade, TradeOptions, TradeType } from '@uniswap/sdk'
-import { getTradeVersion } from '../data/V1'
-import { Version } from '../hooks/useToggledVersion'
+
 
 function toHex(currencyAmount: CurrencyAmount): string {
   return `0x${currencyAmount.raw.toString(16)}`
@@ -17,9 +16,7 @@ function deadlineFromNow(ttl: number): string {
  * @param options options for swapping
  */
 export default function v1SwapArguments(trade: Trade, options: Omit<TradeOptions, 'feeOnTransfer'>): SwapParameters {
-  if (getTradeVersion(trade) !== Version.v1) {
-    throw new Error('invalid trade version')
-  }
+
   if (trade.route.pairs.length > 2) {
     throw new Error('too many pairs')
   }

@@ -1,14 +1,11 @@
 import React, { Suspense } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
-import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Header from '../components/Header'
-import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
-import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import Borrow from './Compound/borrow'
 import Supply from './Compound/supply'
-import Vote from './Compound/vote'
+
 
 const AppWrapper = styled.div`
   display: flex;
@@ -48,21 +45,17 @@ const Marginer = styled.div`
 export default function App() {
   return (
     <Suspense fallback={null}>
-      <HashRouter>
-        <Route component={GoogleAnalyticsReporter} />
-        <Route component={DarkModeQueryParamReader} />
+      <HashRouter>           
         <AppWrapper>
           <HeaderWrapper>
             <Header />
           </HeaderWrapper>
-          <BodyWrapper>
-            <Popups />
+          <BodyWrapper>            
             <Web3ReactManager>
               <Switch>
                 <Route exact strict path="/" component={Supply} />  
                 <Route exact strict path="/supply" component={Supply} />
-                <Route exact strict path="/borrow" component={Borrow} />
-                <Route exact strict path="/vote" component={Vote} />
+                <Route exact strict path="/borrow" component={Borrow} />                
               </Switch>
             </Web3ReactManager>
             <Marginer />

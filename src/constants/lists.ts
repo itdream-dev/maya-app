@@ -18,3 +18,4 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
   'https://defiprime.com/defiprime.tokenlist.json',
   'https://umaproject.org/uma.tokenlist.json'
 ]
+

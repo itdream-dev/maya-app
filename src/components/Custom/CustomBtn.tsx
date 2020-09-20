@@ -18,6 +18,6 @@ const Button = styled.div<{ color: string }>`
 
 export const CustomBtn = (props: any) => {
   return (
-    <Button color={props.color}>{props.title}</Button>
+    <Button color={props.color} onClick={() => props.buttonClick()}>{props.title}</Button>
   )
 }

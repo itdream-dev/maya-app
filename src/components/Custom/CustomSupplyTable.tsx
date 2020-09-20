@@ -62,8 +62,8 @@ const Mark = styled.div`
     }
   }
 `
-
-export const CustomTable = (props: any) => {
+ 
+export const CustomSupplyTable = (props: any) => {
   const [expand, setExpand] = useState(true);
   const { chainId, account } = useActiveWeb3React()  
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
@@ -76,8 +76,8 @@ export const CustomTable = (props: any) => {
           <TR>
             {props.cols1.map((item: any, index: number) => <TH key={index} style={item.style}>{item.title}</TH>)}
           </TR>
-          {props.type === "supply" && props.data.map((item: any, index: number) =>
-          item.chainId === chainId && props.underlying_balances && Object.keys(props.underlying_balances).length > 0 && props.underlying_balances[item.ctoken_address].greaterThan('0')  && <TR key={index}>
+          {props.data.map((item: any, index: number) =>
+          item.chainId === chainId && props.underlying_balances && Object.keys(props.underlying_balances).length > 0 && props.underlying_balances[item.ctoken_address].greaterThan('0')  && <TR key={index}  onClick={() => props.onClickItem(item)}>
             <TD style={{ textAlign: 'left', paddingLeft: 18 }}>
               <div>
                 <img src={item.ctoken_name_logURI} alt={'asset'} />
@@ -95,26 +95,6 @@ export const CustomTable = (props: any) => {
             </TD>
           </TR>
           )}
-
-          {props.type === "borrow" && props.data.map((item: any, index: number) =>
-          item.chainId === chainId && props.borrowBalances && Object.keys(props.borrowBalances).length > 0 && props.borrowBalances[item.ctoken_address].greaterThan('0')  && <TR key={index}>
-          <TD style={{ textAlign: 'left', paddingLeft: 18 }}>
-            <div>
-              <img src={item.ctoken_name_logURI} alt={'asset'} />
-              <span>{item.symbol}</span>
-            </div>
-          </TD>
-          <TD>
-            <p>{Object.keys(props.supplyapys).length > 0 ? props.supplyapys[item.ctoken_address] : 0}% </p>              
-          </TD>
-          <TD>              
-            <p style={{ color: '#AAB8C1', fontWeight: 600}}>{props.borrowBalances[item.ctoken_address]?.toSignificant(6)} {props.unit}</p>
-          </TD>
-          <TD>
-            <Switch onColor={'#00D395'} onChange={() => props.modalCollaterial(props.collateral_enables[item.ctoken_address])} checked={props.collateral_enables[item.ctoken_address]} width={36} height={18} />                  
-          </TD>
-          </TR>  
-          )}
         </tbody>
       </Table>
 
@@ -129,8 +109,8 @@ export const CustomTable = (props: any) => {
               {props.cols2.map((item: any, index: number) => <TH key={index} style={item.style}>{item.title}</TH>)}
             </TR>
             {props.data.map((item: any, index: number) =>
-              item.chainId === chainId && <TR2 key={index}>
-                <TD style={{ textAlign: 'left', paddingLeft: 18 }} onClick={() => props.onClickItem()}>
+              item.chainId === chainId && props.underlying_balances && Object.keys(props.underlying_balances).length > 0 && !props.underlying_balances[item.ctoken_address].greaterThan('0') && <TR2 key={index}  onClick={() => props.onClickItem(item)}>
+                <TD style={{ textAlign: 'left', paddingLeft: 18 }}>
                   <div>
                     <img src={item.logoURI} alt={'asset'} />
                     <span>{item.symbol}</span>
