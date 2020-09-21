@@ -369,15 +369,16 @@ export function useTokenGetCollateralEnabled(
 ): [{ [tokenAddress: string]: boolean }, boolean] {
   
   const { chainId, account } = useActiveWeb3React()
- 
+  console.log('useTokenGetCollateralEnabled chainId', chainId);
   const validatedTokens: (any)[] = useMemo(
     () => tokens?.filter((t) => t !== undefined && t.chainId === chainId && isAddress(t.ctoken_address) !== false) ?? [],
     [tokens, chainId]
   )
-  
+  console.log('useTokenGetCollateralEnabled validatedTokens', validatedTokens);
   const contract = useComptrollerContract()  
-  const address = account ? account : ''
-  const result = useSingleCallResult(contract, 'getAssetsIn', [address]).result
+  const address = account ? account : undefined
+  console.log('useTokenGetCollateralEnabled address', address);
+  const result = useSingleCallResult(contract, 'getAssetsIn', [address])?.result;
   console.log('getAssetsIn result', result);
   const anyLoading: boolean = useMemo(() => result !== undefined, [result])
   
@@ -461,14 +462,14 @@ export function useTokenGetSupplyAPYS(
   tokens?: (any)[] | undefined
 ): [{ [tokenAddress: string]: string }, boolean] {
   
-  const { chainId } = useActiveWeb3React()
-
+  //const { account, chainId } = useActiveWeb3React()
+  const chainId = 1;
   const validatedTokens: (any)[] = useMemo(
     () => tokens?.filter((t) => t !== undefined && t.chainId === chainId && isAddress(t.ctoken_address) !== false) ?? [],
     [tokens, chainId]
   )
 
-  console.log('chainId', chainId);
+  console.log('chainId, account', chainId);
 
   const validatedTokenAddresses = useMemo(() => validatedTokens !== undefined ? validatedTokens.map(vt => vt !== undefined ? vt.ctoken_address : false) : [], [validatedTokens])
   console.log('validatedTokenAddresses', validatedTokenAddresses);
