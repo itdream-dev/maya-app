@@ -462,8 +462,8 @@ export function useTokenGetSupplyAPYS(
   tokens?: (any)[] | undefined
 ): [{ [tokenAddress: string]: string }, boolean] {
   
-  //const { account, chainId } = useActiveWeb3React()
-  const chainId = 1;
+  const { chainId } = useActiveWeb3React()
+  
   const validatedTokens: (any)[] = useMemo(
     () => tokens?.filter((t) => t !== undefined && t.chainId === chainId && isAddress(t.ctoken_address) !== false) ?? [],
     [tokens, chainId]
